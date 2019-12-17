@@ -15,7 +15,7 @@ SO they can organize their thoughts and keep track of tasks that need to be comp
 
 ## Issues and future development
 
-I'm currently having trouble saving and deleting notes.  Will have to make updates to the server.js file in order to fix the save and delete option.
+Updated server.js file, note taker now saves and deletes notes.  I had to add return res.json(notes) to my basic route and also res.json({deletion:"success"}) to my delete function.
 
 ## Credits
 
