@@ -17,16 +17,16 @@ app.use(express.static('public'))
 
 
 //api routes:
-app.get("/api/notes", function(req, res){
+// app.get("/api/notes", function(req, res){
+//     console.log("top one")
+//     fs.readFile("db/db.json", "utf8", function(error, data) {
 
-    fs.readFile("db/db.json", "utf8", function(error, data) {
+//         if (error) return console.log(error);
 
-        if (error) return console.log(error);
-
-        data = JSON.parse(data)
-        res.json(data)
-    });
-})
+//         data = JSON.parse(data)
+//         res.json(data)
+//     });
+// })
 
 var savedNotes = fs.readFileSync("./db/db.json", "UTF-8");
 if (savedNotes) {
@@ -37,15 +37,11 @@ if (savedNotes) {
 }
 
 //basic routes:
-app.get("/notes", function(req, res){
-    res.sendFile(path.join(__dirname, "public/notes.html"));
-})
 
-app.get("*", function(req, res){
-    res.sendFile(path.join(__dirname, "public/index.html"));
-})
 
 app.get("/api/notes", function(req, res) {
+
+    console.log("bottom one")
     return res.json(notes);
   });
 
@@ -71,7 +67,8 @@ app.delete("/api/notes/:id", function (req, res) {
     fs.writeFileSync("./db/db.json", JSON.stringify(notes), function (err) {
         if (err) 
             throw err
-    });
+        });
+    res.json({deletion:"success"})
 });
 
 function assignID() {
@@ -79,6 +76,16 @@ function assignID() {
         notes[i].id = i;
     }
 }
+
+
+app.get("/notes", function(req, res){
+    res.sendFile(path.join(__dirname, "public/notes.html"));
+})
+
+app.get("*", function(req, res){
+    res.sendFile(path.join(__dirname, "public/index.html"));
+})
+
 //starts server to begin listening
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
